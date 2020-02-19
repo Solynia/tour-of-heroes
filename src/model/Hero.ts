@@ -1,6 +1,7 @@
 export default interface Hero {
     id?: number;
     name: string;
+    selected?: boolean;
 }
 
 export const HEROES: Hero[] = [

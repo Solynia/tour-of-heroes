@@ -1,10 +1,14 @@
 import React from "react";
+import { connect } from "react-redux";
 import Hero from "../model/Hero";
+import { AppState } from "../redux/reducers";
+import { getHeroes, getSelectedHero } from "../redux/selectors";
+import { selectHero } from "../redux/actions";
 
 interface HeroListProps {
   heroes?: Hero[];
   selectedHero?: Hero;
-  onSelect: (hero: Hero) => void;
+  selectHero?: (hero: Hero) => void;
 }
 
 function HeroList(props: HeroListProps) {
@@ -16,7 +20,11 @@ function HeroList(props: HeroListProps) {
           ? "selected"
           : "";
       return (
-        <li onClick={() => props.onSelect(hero)} className={selectClassName}>
+        <li
+          key={hero.id}
+          onClick={() => props.selectHero && props.selectHero(hero)}
+          className={selectClassName}
+        >
           <span className="badge">{hero.id}</span> {hero.name}
         </li>
       );
@@ -30,4 +38,10 @@ function HeroList(props: HeroListProps) {
   );
 }
 
-export default HeroList;
+export default connect<HeroListProps>(
+  (state: AppState) => ({
+    heroes: getHeroes(state),
+    selectedHero: getSelectedHero(state)
+  }),
+  { selectHero }
+)(HeroList);
