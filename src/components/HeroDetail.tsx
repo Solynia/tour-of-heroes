@@ -70,9 +70,10 @@ class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
   }
 }
 
-export default connect<HeroDetailProps>(
-  (state: AppState) => ({
-    hero: getSelectedHero(state)
-  }),
-  { updateHero }
-)(HeroDetail);
+const mapStateToProps = (state: AppState) => ({
+  hero: getSelectedHero(state)
+});
+
+export default connect<HeroDetailProps>(mapStateToProps, { updateHero })(
+  HeroDetail
+);

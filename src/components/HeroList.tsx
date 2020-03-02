@@ -1,10 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { ThunkDispatch } from "redux-thunk";
 import Hero from "../model/Hero";
 import { AppState } from "../redux/reducers";
 import { getHeroes, getSelectedHero } from "../redux/selectors";
-import { selectHero, fetchHeroes, HeroAction } from "../redux/actions";
+import { selectHero, fetchHeroes } from "../redux/actions";
 
 interface HeroListProps {
   heroes?: Hero[];
@@ -31,7 +30,7 @@ class HeroList extends Component<HeroListProps> {
         return (
           <li
             key={hero.id}
-            onClick={() => this.props.selectHero && this.props.selectHero(hero)}
+            onClick={() => this.props.selectHero?.(hero)}
             className={selectClassName}
           >
             <span className="badge">{hero.id}</span> {hero.name}
@@ -48,13 +47,12 @@ class HeroList extends Component<HeroListProps> {
   }
 }
 
-export default connect<HeroListProps>(
-  (state: AppState) => ({
-    heroes: getHeroes(state),
-    selectedHero: getSelectedHero(state)
-  }),
-  (dispatch: ThunkDispatch<AppState, void, HeroAction>) => ({
-    selectHero,
-    fetchHeroes: () => dispatch(fetchHeroes())
-  })
-)(HeroList);
+const mapStateToProps = (state: AppState) => ({
+  heroes: getHeroes(state),
+  selectedHero: getSelectedHero(state)
+});
+
+export default connect<HeroListProps>(mapStateToProps, {
+  selectHero,
+  fetchHeroes
+})(HeroList);
