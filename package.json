@@ -14,13 +14,15 @@
     "react-dom": "^16.12.0",
     "react-redux": "^7.2.0",
     "react-scripts": "3.4.0",
+    "redux-thunk": "^2.3.0",
     "typescript": "^3.7.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "start-backend": "json-server --watch data/db.json --port 3001"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -38,6 +40,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-redux": "^7.1.7"
+    "@types/react-redux": "^7.1.7",
+    "json-server": "^0.16.1"
   }
 }

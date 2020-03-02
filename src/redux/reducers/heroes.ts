@@ -1,11 +1,6 @@
-import { Action } from "redux";
 import Hero from "../../model/Hero";
 import { HeroActions } from "../actionTypes";
-
-export interface HeroAction extends Action<HeroActions> {
-    type: HeroActions;
-    payload: { hero?: Hero }
-}
+import { HeroAction } from "../actions";
 
 export interface HeroState {
     heroes: Hero[];
@@ -17,6 +12,8 @@ export default function (state: HeroState = { heroes: [] }, action: HeroAction) 
             return heroSelect(state, action.payload.hero);
         case HeroActions.update:
             return heroUpdate(state, action.payload.hero);
+        case HeroActions.fetchHeroesSuccess:
+            return fetchHeroesSuccess(state, action.payload.heroes);
         default:
             return state;
     }
@@ -29,7 +26,7 @@ function heroSelect(state: HeroState, hero: Hero = { name: '' }): HeroState {
             ...h,
             selected: hero && hero.id === h.id
         }))]
-    }
+    };
 }
 
 function heroUpdate(state: HeroState, hero: Hero = { name: '' }): HeroState {
@@ -40,5 +37,12 @@ function heroUpdate(state: HeroState, hero: Hero = { name: '' }): HeroState {
             name: hero && hero.id === h.id ? hero.name : h.name,
             selected: false
         }))]
-    }
+    };
+}
+
+function fetchHeroesSuccess(state: HeroState, heroes: Hero[] = []): HeroState {
+    return {
+        ...state,
+        heroes
+    };
 }
