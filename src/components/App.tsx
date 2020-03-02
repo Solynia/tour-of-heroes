@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import Heroes from "./Heroes";
+import NavMenu from "./NavMenu";
 
 interface AppProps {
   title: string;
@@ -9,8 +10,11 @@ interface AppProps {
 function App(props: AppProps) {
   return (
     <div>
-      <h1>{props.title}</h1>
-      <Heroes />
+      <NavMenu></NavMenu>
+      <main>
+        <h1>{props.title}</h1>
+        <Heroes />
+      </main>
     </div>
   );
 }
