@@ -1,4 +1,4 @@
-import { AppState } from "./reducers";
+import { AppState } from "../reducers";
 
 export function getHeroes(store: AppState) {
     return store?.hero?.heroes

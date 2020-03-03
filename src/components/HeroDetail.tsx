@@ -2,8 +2,8 @@ import React from "react";
 import { connect } from "react-redux";
 import Hero from "../model/Hero";
 import { AppState } from "../redux/reducers";
-import { getSelectedHero } from "../redux/selectors";
-import { updateHero, cancelHero } from "../redux/actions";
+import { getSelectedHero } from "../redux/selectors/heroes";
+import { updateHero, cancelHero } from "../redux/actions/heroes";
 
 interface HeroDetailProps {
   hero?: Hero;

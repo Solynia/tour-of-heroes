@@ -1,10 +1,15 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from 'redux-thunk';
-import rootReducer from "./reducers";
+import rootReducer, { AppState } from "./reducers";
+
+const defaultState: AppState = {
+    hero: { heroes: [] },
+    notification: {}
+}
 
 const store = createStore(
     rootReducer,
-    { hero: { heroes: [] } },
+    defaultState,
     applyMiddleware(thunk)
 );
 

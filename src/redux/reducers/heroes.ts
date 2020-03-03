@@ -1,6 +1,6 @@
 import Hero from "../../model/Hero";
-import { HeroActions } from "../actionTypes";
-import { HeroAction } from "../actions";
+import { HeroActions } from "../actions/actionTypes";
+import { HeroAction } from "../actions/heroes";
 
 export interface HeroState {
     heroes: Hero[];
