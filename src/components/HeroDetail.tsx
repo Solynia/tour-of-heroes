@@ -66,12 +66,8 @@ class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
             onChange={e => this.handleUpdateInput(e.target.value)}
           />
         </div>
-        <input type="submit" value="Save" disabled={this.disableSave()}></input>
-        <input
-          type="button"
-          value="Cancel"
-          onClick={this.handleCancelClick}
-        ></input>
+        <input type="submit" value="Save" disabled={this.disableSave()} />
+        <input type="button" value="Cancel" onClick={this.handleCancelClick} />
       </form>
     ) : null;
   }
