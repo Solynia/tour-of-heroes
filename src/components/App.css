@@ -34,6 +34,7 @@ button {
   --bg-primary: #23232e;
   --bg-secondary: #141418;
   --transition-speed: 600ms;
+  --navbar-thichness: 5rem;
 }
 
 body {
@@ -44,7 +45,7 @@ body {
 }
 
 main {
-  margin-left: 5rem;
+  margin-left: var(--navbar-thichness);
   padding: 1rem;
 }
 
