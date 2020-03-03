@@ -8,19 +8,16 @@ export interface NotificationAction extends Action<NotificationActions> {
     payload: { notification?: Notification }
 }
 
-export function displayNotification(notification: Notification): (dispatch: Dispatch<NotificationAction>) => NotificationAction {
+export function displayNotification(notification: Notification): (dispatch: Dispatch<NotificationAction>) => void {
     return (dispatch: Dispatch<NotificationAction>) => {
         setTimeout(() => dispatch(dismissNotification()), 5000);
-        return {
-            type: NotificationActions.display,
-            payload: { notification }
-        };
-    }
+        dispatch({ type: NotificationActions.display, payload: { notification } });
+    };
 }
 
 export function dismissNotification(): NotificationAction {
     return {
         type: NotificationActions.dismiss,
         payload: {}
-    }
+    };
 }

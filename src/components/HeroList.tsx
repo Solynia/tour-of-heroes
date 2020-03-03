@@ -15,7 +15,7 @@ interface HeroListProps {
 
 class HeroList extends Component<HeroListProps> {
   componentDidMount() {
-    this.props.fetchHeroes && this.props.fetchHeroes();
+    this.props.fetchHeroes?.();
   }
 
   render() {

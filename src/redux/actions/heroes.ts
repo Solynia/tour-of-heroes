@@ -13,39 +13,39 @@ export function selectHero(hero: Hero): HeroAction {
     return {
         type: HeroActions.select,
         payload: { hero }
-    }
+    };
 }
 
-export function updateHero(hero: Hero): HeroAction {
-    return {
-        type: HeroActions.update,
-        payload: { hero }
-    }
+export function updateHero(hero: Hero): (dispatch: Dispatch<Action>) => void {
+    return (dispatch: Dispatch<Action>) => {
+        displayNotification({ message: `Saving ${hero.name}` })(dispatch);
+        dispatch({ type: HeroActions.update, payload: { hero } } as HeroAction);
+    };
 }
 
 export function cancelHero(): HeroAction {
     return {
         type: HeroActions.update,
         payload: {}
-    }
+    };
 }
 
-export function fetchHeroes() {
+export function fetchHeroes(): (dispatch: Dispatch<Action>) => void {
     return (dispatch: Dispatch<Action>) => {
-        dispatch(displayNotification({ message: "Fetching heroes" })(dispatch));
+        displayNotification({ message: "Fetching heroes" });
         fetch('http://localhost:3001/heroes')
             .then((response) => response.json())
             .then((heroes: Hero[]) => {
                 dispatch(fetchHeroesSuccess(heroes))
-                dispatch(displayNotification({ message: "Heroes loaded" })(dispatch));
+                displayNotification({ message: "Heroes loaded" })(dispatch);
             })
-            .catch(() => dispatch(displayNotification({ message: "Error loading heroes" })(dispatch)));
-    }
+            .catch(() => displayNotification({ message: "Error loading heroes" }));
+    };
 }
 
 export function fetchHeroesSuccess(heroes: Hero[]): HeroAction {
     return {
         type: HeroActions.fetchHeroesSuccess,
         payload: { heroes }
-    }
+    };
 }
