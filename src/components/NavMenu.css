@@ -66,8 +66,16 @@
   margin: 0 1.5rem;
 }
 
-.nav-link .svg-inline--fa {
+.fa-primary {
   color: #ff7eee;
+}
+
+.fa-secondary {
+  color: #df49a6;
+}
+
+.fa-primary,
+.fa-secondary {
   transition: var(--transition-speed);
 }
 
