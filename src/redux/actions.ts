@@ -22,6 +22,13 @@ export function updateHero(hero: Hero): HeroAction {
     }
 }
 
+export function cancelHero(): HeroAction {
+    return {
+        type: HeroActions.update,
+        payload: {}
+    }
+}
+
 export function fetchHeroes() {
     return (dispatch: Dispatch<HeroAction>) => {
         fetch('http://localhost:3001/heroes')

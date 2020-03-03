@@ -1,7 +1,7 @@
 import { AppState } from "./reducers";
 
 export function getHeroes(store: AppState) {
-    return store && store.hero && store.hero.heroes
+    return store?.hero?.heroes
         ? store.hero.heroes
         : [];
 }

@@ -18,25 +18,19 @@ class HeroList extends Component<HeroListProps> {
   }
 
   render() {
-    const elements =
-      this.props.heroes &&
-      this.props.heroes.map(hero => {
-        const selectClassName =
-          hero &&
-          this.props.selectedHero &&
-          hero.id === this.props.selectedHero.id
-            ? "selected"
-            : "";
-        return (
-          <li
-            key={hero.id}
-            onClick={() => this.props.selectHero?.(hero)}
-            className={selectClassName}
-          >
-            <span className="badge">{hero.id}</span> {hero.name}
-          </li>
-        );
-      });
+    const elements = this.props.heroes?.map(hero => {
+      const selectClassName =
+        hero?.id === this.props.selectedHero?.id ? "selected" : "";
+      return (
+        <li
+          key={hero.id}
+          onClick={() => this.props.selectHero?.(hero)}
+          className={selectClassName}
+        >
+          <span className="badge">{hero.id}</span> {hero.name}
+        </li>
+      );
+    });
 
     return (
       <div>

@@ -12,6 +12,8 @@ export default function (state: HeroState = { heroes: [] }, action: HeroAction) 
             return heroSelect(state, action.payload.hero);
         case HeroActions.update:
             return heroUpdate(state, action.payload.hero);
+        case HeroActions.cancel:
+            return heroCancel(state);
         case HeroActions.fetchHeroesSuccess:
             return fetchHeroesSuccess(state, action.payload.heroes);
         default:
@@ -35,6 +37,16 @@ function heroUpdate(state: HeroState, hero: Hero = { name: '' }): HeroState {
         heroes: [...state.heroes.map(h => ({
             ...h,
             name: hero && hero.id === h.id ? hero.name : h.name,
+            selected: false
+        }))]
+    };
+}
+
+function heroCancel(state: HeroState): HeroState {
+    return {
+        ...state,
+        heroes: [...state.heroes.map(h => ({
+            ...h,
             selected: false
         }))]
     };

@@ -3,11 +3,12 @@ import { connect } from "react-redux";
 import Hero from "../model/Hero";
 import { AppState } from "../redux/reducers";
 import { getSelectedHero } from "../redux/selectors";
-import { updateHero } from "../redux/actions";
+import { updateHero, cancelHero } from "../redux/actions";
 
 interface HeroDetailProps {
   hero?: Hero;
   updateHero?: (hero: Hero) => void;
+  cancelHero?: () => void;
 }
 
 interface HeroDetailState {
@@ -26,13 +27,14 @@ class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
   };
 
   handleSaveClick = () => {
-    this.props.updateHero &&
-      this.props.updateHero({
-        ...this.props.hero,
-        name: this.state.input
-      });
+    this.props.updateHero?.({
+      ...this.props.hero,
+      name: this.state.input
+    });
     this.setState({ input: "", disableSave: true });
   };
+
+  handleCancelClick = () => this.props.cancelHero?.();
 
   disableSave = () => {
     return (
@@ -42,18 +44,18 @@ class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
   };
 
   componentDidUpdate(prevProps: HeroDetailProps) {
-    if (this.props.hero && this.props.hero?.id !== prevProps.hero?.id) {
-      this.setState({ input: this.props.hero.name });
+    if (this.props.hero?.id !== prevProps.hero?.id) {
+      this.setState({ input: this.props.hero?.name });
     }
   }
 
   render() {
     return this.props.hero ? (
       <form onSubmit={this.handleSaveClick}>
-        <h2>{this.props.hero.name.toUpperCase()} Details</h2>
+        <h2>{this.props.hero?.name.toUpperCase()} Details</h2>
         <div>
           <span>id: </span>
-          {this.props.hero.id}
+          {this.props.hero?.id}
         </div>
         <div>
           <label>name: </label>
@@ -65,6 +67,11 @@ class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
           />
         </div>
         <input type="submit" value="Save" disabled={this.disableSave()}></input>
+        <input
+          type="button"
+          value="Cancel"
+          onClick={this.handleCancelClick}
+        ></input>
       </form>
     ) : null;
   }
@@ -74,6 +81,7 @@ const mapStateToProps = (state: AppState) => ({
   hero: getSelectedHero(state)
 });
 
-export default connect<HeroDetailProps>(mapStateToProps, { updateHero })(
-  HeroDetail
-);
+export default connect<HeroDetailProps>(mapStateToProps, {
+  updateHero,
+  cancelHero
+})(HeroDetail);
