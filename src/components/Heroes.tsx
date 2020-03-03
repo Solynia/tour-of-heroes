@@ -1,5 +1,4 @@
 import React from "react";
-import "./Heroes.css";
 import HeroList from "./HeroList";
 import HeroDetail from "./HeroDetail";
 

@@ -4,6 +4,7 @@ import Hero from "../model/Hero";
 import { AppState } from "../redux/reducers";
 import { getHeroes, getSelectedHero } from "../redux/selectors";
 import { selectHero, fetchHeroes } from "../redux/actions";
+import "./HeroList.css";
 
 interface HeroListProps {
   heroes?: Hero[];
