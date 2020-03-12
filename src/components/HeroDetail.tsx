@@ -45,7 +45,7 @@ class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
 
   componentDidUpdate(prevProps: HeroDetailProps) {
     if (this.props.hero?.id !== prevProps.hero?.id) {
-      this.setState({ input: this.props.hero?.name });
+      this.setState({ input: this.props.hero?.name ?? "" });
     }
   }
 
