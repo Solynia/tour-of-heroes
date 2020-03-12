@@ -1,16 +1,19 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./NavMenu.css";
 
 interface Item {
   label: string;
   logo?: boolean;
   icon: any;
+  route: string;
 }
 
 export default function NavMenu() {
   const items: Item[] = [
     {
       label: "Cats",
+      route: "/heroes/list",
       icon: (
         <svg
           aria-hidden="true"
@@ -39,6 +42,7 @@ export default function NavMenu() {
     },
     {
       label: "Aliens",
+      route: "/heroes/detail",
       icon: (
         <svg
           aria-hidden="true"
@@ -67,6 +71,7 @@ export default function NavMenu() {
     },
     {
       label: "Space",
+      route: "/",
       icon: (
         <svg
           aria-hidden="true"
@@ -95,6 +100,7 @@ export default function NavMenu() {
     },
     {
       label: "Shuttle",
+      route: "/",
       icon: (
         <svg
           aria-hidden="true"
@@ -123,6 +129,7 @@ export default function NavMenu() {
     },
     {
       label: "Themify",
+      route: "/",
       icon: (
         <svg
           id="lightIcon"
@@ -154,6 +161,7 @@ export default function NavMenu() {
 
   const menuLogo: Item = {
     label: "TOR",
+    route: "/",
     logo: true,
     icon: (
       <svg
@@ -184,13 +192,13 @@ export default function NavMenu() {
 
   const itemFactory = (item: Item, index: number = 0) => (
     <li className={item.logo ? "logo" : "nav-item"} key={index}>
-      <a href={`#/${item.label}`} className="nav-link">
+      <Link to={item.route} className="nav-link">
         {!item.logo && item.icon}
         <span className={`link-text${item.logo ? " logo-text" : ""}`}>
           {item.label}
         </span>
         {item.logo && item.icon}
-      </a>
+      </Link>
     </li>
   );
 
