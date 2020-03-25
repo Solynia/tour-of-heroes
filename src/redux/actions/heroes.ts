@@ -9,24 +9,10 @@ export interface HeroAction extends Action<HeroActions> {
     payload: { hero?: Hero, heroes?: Hero[] }
 }
 
-export function selectHero(hero: Hero): HeroAction {
-    return {
-        type: HeroActions.select,
-        payload: { hero }
-    };
-}
-
 export function updateHero(hero: Hero): (dispatch: Dispatch<Action>) => void {
     return (dispatch: Dispatch<Action>) => {
         displayNotification({ message: `Saving ${hero.name}` })(dispatch);
         dispatch({ type: HeroActions.update, payload: { hero } } as HeroAction);
-    };
-}
-
-export function cancelHero(): HeroAction {
-    return {
-        type: HeroActions.update,
-        payload: {}
     };
 }
 

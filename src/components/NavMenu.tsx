@@ -12,7 +12,7 @@ interface Item {
 export default function NavMenu() {
   const items: Item[] = [
     {
-      label: "Cats",
+      label: "List", //Cats
       route: "/heroes/list",
       icon: (
         <svg
@@ -41,7 +41,7 @@ export default function NavMenu() {
       )
     },
     {
-      label: "Aliens",
+      label: "New", //Aliens
       route: "/heroes/detail",
       icon: (
         <svg
@@ -70,8 +70,8 @@ export default function NavMenu() {
       )
     },
     {
-      label: "Space",
-      route: "/",
+      label: "Narco", //Space
+      route: "/heroes/detail/12",
       icon: (
         <svg
           aria-hidden="true"
@@ -99,7 +99,7 @@ export default function NavMenu() {
       )
     },
     {
-      label: "Shuttle",
+      label: "Home", //Shuttle
       route: "/",
       icon: (
         <svg
@@ -128,7 +128,7 @@ export default function NavMenu() {
       )
     },
     {
-      label: "Themify",
+      label: "Home", //Themify
       route: "/",
       icon: (
         <svg

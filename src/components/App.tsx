@@ -17,15 +17,9 @@ function App(props: AppProps) {
       <main>
         <h1>{props.title}</h1>
         <Switch>
-          <Route path="/heroes/list">
-            <HeroList />
-          </Route>
-          <Route path="/heroes/detail/:id">
-            <HeroDetail />
-          </Route>
-          <Route path="/heroes/detail">
-            <HeroDetail />
-          </Route>
+          <Route path="/heroes/list" component={HeroList} />
+          <Route path="/heroes/detail/:id" component={HeroDetail} />
+          <Route path="/heroes/detail" component={HeroDetail} />
         </Switch>
       </main>
       <Message></Message>

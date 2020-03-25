@@ -9,7 +9,3 @@ export function getHeroes(store: AppState) {
 export function getHeroById(store: AppState, id: number) {
     return getHeroes(store).find(hero => hero.id === id);
 }
-
-export function getSelectedHero(store: AppState) {
-    return getHeroes(store).find(hero => hero.selected);
-}

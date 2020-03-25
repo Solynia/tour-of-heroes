@@ -1,25 +1,24 @@
 import React from "react";
 import { connect } from "react-redux";
+import { RouteComponentProps } from "react-router-dom"
 import Hero from "../model/Hero";
+import { updateHero } from "../redux/actions/heroes";
 import { AppState } from "../redux/reducers";
-import { getSelectedHero } from "../redux/selectors/heroes";
-import { updateHero, cancelHero } from "../redux/actions/heroes";
+import { getHeroById } from "../redux/selectors/heroes";
 
-interface HeroDetailProps {
+interface HeroDetailProps extends RouteComponentProps<{ id?: string }> {
   hero?: Hero;
   updateHero?: (hero: Hero) => void;
-  cancelHero?: () => void;
 }
 
 interface HeroDetailState {
   input: string;
-  disableSave: boolean;
 }
 
 class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
   constructor(props: HeroDetailProps) {
     super(props);
-    this.state = { input: "", disableSave: true };
+    this.state = { input: this.props.hero?.name ?? "" };
   }
 
   handleUpdateInput = (value: string) => {
@@ -31,10 +30,10 @@ class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
       ...this.props.hero,
       name: this.state.input
     });
-    this.setState({ input: "", disableSave: true });
+    this.redirectToList();
   };
 
-  handleCancelClick = () => this.props.cancelHero?.();
+  redirectToList = () => this.props.history.push("/heroes/list");
 
   disableSave = () => {
     return (
@@ -42,12 +41,6 @@ class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
       (this.props.hero && this.state.input === this.props.hero.name)
     );
   };
-
-  componentDidUpdate(prevProps: HeroDetailProps) {
-    if (this.props.hero?.id !== prevProps.hero?.id) {
-      this.setState({ input: this.props.hero?.name ?? "" });
-    }
-  }
 
   render() {
     return this.props.hero ? (
@@ -67,17 +60,16 @@ class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
           />
         </div>
         <input type="submit" value="Save" disabled={this.disableSave()} />
-        <input type="button" value="Cancel" onClick={this.handleCancelClick} />
+        <input type="button" value="Cancel" onClick={this.redirectToList} />
       </form>
-    ) : null;
+    ) : <h2>No content to display</h2>;
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
-  hero: getSelectedHero(state)
+const mapStateToProps = (state: AppState, ownProps: HeroDetailProps) => ({
+  hero: getHeroById(state, parseInt(ownProps.match.params.id ?? "")),
 });
 
-export default connect<HeroDetailProps>(mapStateToProps, {
-  updateHero,
-  cancelHero
+export default connect<{ hero?: Hero }, { updateHero: (hero: Hero) => void }, HeroDetailProps>(mapStateToProps, {
+  updateHero
 })(HeroDetail);
