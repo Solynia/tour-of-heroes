@@ -7,12 +7,17 @@ import { getHeroes } from "../redux/selectors/heroes";
 import { fetchHeroes } from "../redux/actions/heroes";
 import "./HeroList.css";
 
-interface HeroListProps {
-  heroes?: Hero[];
-  fetchHeroes?: () => void;
+type StateProps = {
+  heroes: Hero[];
 }
 
-class HeroList extends Component<HeroListProps> {
+type DispatchProps = {
+  fetchHeroes: () => void;
+}
+
+type Props = StateProps & DispatchProps;
+
+class HeroList extends Component<Props> {
   componentDidMount() {
     this.props.fetchHeroes?.();
   }
@@ -37,10 +42,8 @@ class HeroList extends Component<HeroListProps> {
   }
 }
 
-const mapStateToProps = (state: AppState) => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   heroes: getHeroes(state),
 });
 
-export default connect<HeroListProps>(mapStateToProps, {
-  fetchHeroes
-})(HeroList);
+export default connect<StateProps, DispatchProps>(mapStateToProps, { fetchHeroes })(HeroList);

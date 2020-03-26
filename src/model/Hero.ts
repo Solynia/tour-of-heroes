@@ -1,5 +1,7 @@
-export default interface Hero {
+type Hero = {
     id?: number;
     name: string;
     selected?: boolean;
 }
+
+export default Hero;

@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import "./NavMenu.css";
 
-interface Item {
+type Item = {
   label: string;
   logo?: boolean;
   icon: any;

@@ -6,11 +6,11 @@ import HeroDetail from "./HeroDetail";
 import Message from "./Message";
 import NavMenu from "./NavMenu";
 
-interface AppProps {
+type Props = {
   title: string;
 }
 
-function App(props: AppProps) {
+function App(props: Props) {
   return (
     <Router>
       <NavMenu></NavMenu>

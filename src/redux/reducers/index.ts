@@ -2,7 +2,7 @@ import { combineReducers } from "redux";
 import hero, { HeroState } from "./heroes";
 import notification, { NotificationState } from "./notifications";
 
-export interface AppState {
+export type AppState = {
     hero?: HeroState;
     notification?: NotificationState;
 }

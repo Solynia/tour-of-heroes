@@ -2,7 +2,7 @@ import Hero from "../../model/Hero";
 import { HeroActions } from "../actions/actionTypes";
 import { HeroAction } from "../actions/heroes";
 
-export interface HeroState {
+export type HeroState = {
     heroes: Hero[];
 }
 

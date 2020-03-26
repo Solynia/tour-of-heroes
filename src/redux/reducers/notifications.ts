@@ -2,7 +2,7 @@ import { NotificationAction } from "../actions/notifications";
 import Notification from "../../model/Notification";
 import { NotificationActions } from "../actions/actionTypes";
 
-export interface NotificationState {
+export type NotificationState = {
     notification?: Notification;
 }
 

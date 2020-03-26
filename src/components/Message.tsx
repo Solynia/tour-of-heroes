@@ -6,20 +6,25 @@ import { getNotification } from "../redux/selectors/notifications";
 import { dismissNotification } from "../redux/actions/notifications";
 import "./Message.css";
 
-interface MessageProps {
+type StateProps = {
   notification?: Notification;
-  dismissNotification?: () => void;
 }
-const Message = (props: MessageProps) =>
+
+type DispatchProps = {
+  dismissNotification: () => void;
+}
+
+type Props = StateProps & DispatchProps;
+
+const Message = (props: Props) =>
   props.notification ? (
     <div className="message" onClick={() => props.dismissNotification?.()}>
       {props?.notification?.message}
     </div>
   ) : null;
 
-const mapStateToProps = (state: AppState): MessageProps => ({
+const mapStateToProps = (state: AppState): StateProps => ({
   notification: getNotification(state)
 });
-export default connect<MessageProps>(mapStateToProps, { dismissNotification })(
-  Message
-);
+
+export default connect<StateProps, DispatchProps>(mapStateToProps, { dismissNotification })(Message);

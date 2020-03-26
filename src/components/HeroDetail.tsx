@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router-dom"
 import Hero from "../model/Hero";
@@ -6,17 +6,24 @@ import { updateHero } from "../redux/actions/heroes";
 import { AppState } from "../redux/reducers";
 import { getHeroById } from "../redux/selectors/heroes";
 
-interface HeroDetailProps extends RouteComponentProps<{ id?: string }> {
+type OwnProps = RouteComponentProps<{ id: string }>;
+
+type StateProps = {
   hero?: Hero;
-  updateHero?: (hero: Hero) => void;
 }
 
-interface HeroDetailState {
+type DispatchProps = {
+  updateHero: (hero: Hero) => void;
+}
+
+type Props = OwnProps & StateProps & DispatchProps;
+
+type State = {
   input: string;
 }
 
-class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
-  constructor(props: HeroDetailProps) {
+class HeroDetail extends Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = { input: this.props.hero?.name ?? "" };
   }
@@ -66,10 +73,8 @@ class HeroDetail extends React.Component<HeroDetailProps, HeroDetailState> {
   }
 }
 
-const mapStateToProps = (state: AppState, ownProps: HeroDetailProps) => ({
+const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
   hero: getHeroById(state, parseInt(ownProps.match.params.id ?? "")),
 });
 
-export default connect<{ hero?: Hero }, { updateHero: (hero: Hero) => void }, HeroDetailProps>(mapStateToProps, {
-  updateHero
-})(HeroDetail);
+export default connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, { updateHero })(HeroDetail);
