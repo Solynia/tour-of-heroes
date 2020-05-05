@@ -22,7 +22,7 @@ function heroUpdate(state: HeroState, hero: Hero = { name: '' }): HeroState {
     ...state,
     heroes: [...state.heroes.map(h => ({
       ...h,
-      name: hero && hero.id === h.id ? hero.name : h.name
+      name: hero.id === h.id ? hero.name : h.name
     }))]
   };
 }

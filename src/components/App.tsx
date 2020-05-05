@@ -17,9 +17,16 @@ const App = (props: Props) => {
       <main>
         <h1>{props.title}</h1>
         <Switch>
-          <Route path="/heroes/list" component={HeroList} />
-          <Route path="/heroes/detail/:id" component={HeroDetail} />
-          <Route path="/heroes/detail" component={HeroDetail} />
+          <Route path="/heroes/list" >
+            <HeroList />
+          </Route>
+          <Route path="/heroes/detail/:id" render={routeProps => {
+            const id = routeProps.match.params.id;
+            return <HeroDetail key={id} id={id} />
+          }} />
+          <Route path="/heroes/detail" >
+            <HeroDetail />
+          </Route>
         </Switch>
       </main>
       <Message></Message>

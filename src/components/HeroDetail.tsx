@@ -1,26 +1,18 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import Hero from "../model/Hero";
 import { updateHero } from "../redux/actions/heroes";
 import { AppState } from "../redux/reducers";
 import { getHeroById } from "../redux/selectors/heroes";
 
-type OwnProps = RouteComponentProps<{ id: string }>;
-
-type StateProps = {
-  hero?: Hero;
-}
-
-type DispatchProps = {
-  updateHero: (hero: Hero) => void;
-}
-
-type Props = OwnProps & StateProps & DispatchProps;
+type Props = { id?: string };
 
 const HeroDetail = (props: Props) => {
-  const [input, setInput] = useState(props.hero?.name ?? "");
+  const history = useHistory();
+  const hero = useSelector((state: AppState) => getHeroById(state, parseInt(props.id ?? "")));
+  const dispatch = useDispatch();
+  const [input, setInput] = useState(hero?.name ?? "");
   useDocumentTitle(input);
 
   const handleUpdateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -28,23 +20,23 @@ const HeroDetail = (props: Props) => {
   };
 
   const handleSaveClick = () => {
-    props.updateHero?.({
-      ...props.hero,
+    updateHero?.({
+      ...hero,
       name: input
-    });
+    })(dispatch);
     redirectToList();
   };
 
-  const redirectToList = () => props.history.push("/heroes/list");
+  const redirectToList = () => history.push("/heroes/list");
 
-  const disableSave = () => !input || (props.hero && input === props.hero.name);
+  const disableSave = () => !input || (hero && input === hero.name);
 
-  return props.hero ? (
+  return hero ? (
     <form onSubmit={handleSaveClick}>
-      <h2>{props.hero?.name.toUpperCase()} Details</h2>
+      <h2>{hero?.name.toUpperCase()} Details</h2>
       <div>
         <span>id: </span>
-        {props.hero?.id}
+        {hero?.id}
       </div>
       <div>
         <label>name: </label>
@@ -61,8 +53,4 @@ const HeroDetail = (props: Props) => {
   ) : <h2>No content to display</h2>;
 }
 
-const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({
-  hero: getHeroById(state, parseInt(ownProps.match.params.id ?? "")),
-});
-
-export default connect<StateProps, DispatchProps, OwnProps>(mapStateToProps, { updateHero })(HeroDetail);
+export default HeroDetail;

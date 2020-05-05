@@ -1,5 +1,5 @@
 import { AppState } from "../reducers";
 
 export function getNotification(store: AppState) {
-    return store?.notification?.notification;
+  return store.notification?.notification;
 }

@@ -1,29 +1,19 @@
 import React, { useEffect } from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import Hero from "../model/Hero";
 import { fetchHeroes } from "../redux/actions/heroes";
-import { AppState } from "../redux/reducers";
 import { getHeroes } from "../redux/selectors/heroes";
 import "./HeroList.css";
 
-type StateProps = {
-  heroes: Hero[];
-}
-
-type DispatchProps = {
-  fetchHeroes: () => void;
-}
-
-type Props = StateProps & DispatchProps;
-
-const HeroList = (props: Props) => {
-  // fetch heroes only once
-  useEffect(props.fetchHeroes, []);
+const HeroList = () => {
+  const heroes = useSelector(getHeroes);
+  const dispatch = useDispatch();
   useDocumentTitle('Hero List');
+  // fetch heroes only once
+  useEffect(() => fetchHeroes()(dispatch), [dispatch]);
 
-  const elements = props.heroes?.map(hero => {
+  const elements = heroes?.map(hero => {
     return (
       <Link key={hero.id} to={`/heroes/detail/${hero.id}`}>
         <li>
@@ -41,8 +31,4 @@ const HeroList = (props: Props) => {
   );
 }
 
-const mapStateToProps = (state: AppState): StateProps => ({
-  heroes: getHeroes(state),
-});
-
-export default connect<StateProps, DispatchProps>(mapStateToProps, { fetchHeroes })(HeroList);
+export default HeroList;
