@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router-dom"
+import { RouteComponentProps } from "react-router-dom";
+import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import Hero from "../model/Hero";
 import { updateHero } from "../redux/actions/heroes";
 import { AppState } from "../redux/reducers";
@@ -18,59 +19,46 @@ type DispatchProps = {
 
 type Props = OwnProps & StateProps & DispatchProps;
 
-type State = {
-  input: string;
-}
+const HeroDetail = (props: Props) => {
+  const [input, setInput] = useState(props.hero?.name ?? "");
+  useDocumentTitle(input);
 
-class HeroDetail extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = { input: this.props.hero?.name ?? "" };
-  }
-
-  handleUpdateInput = (value: string) => {
-    this.setState({ input: value });
+  const handleUpdateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setInput(event.target.value);
   };
 
-  handleSaveClick = () => {
-    this.props.updateHero?.({
-      ...this.props.hero,
-      name: this.state.input
+  const handleSaveClick = () => {
+    props.updateHero?.({
+      ...props.hero,
+      name: input
     });
-    this.redirectToList();
+    redirectToList();
   };
 
-  redirectToList = () => this.props.history.push("/heroes/list");
+  const redirectToList = () => props.history.push("/heroes/list");
 
-  disableSave = () => {
-    return (
-      !this.state.input ||
-      (this.props.hero && this.state.input === this.props.hero.name)
-    );
-  };
+  const disableSave = () => !input || (props.hero && input === props.hero.name);
 
-  render() {
-    return this.props.hero ? (
-      <form onSubmit={this.handleSaveClick}>
-        <h2>{this.props.hero?.name.toUpperCase()} Details</h2>
-        <div>
-          <span>id: </span>
-          {this.props.hero?.id}
-        </div>
-        <div>
-          <label>name: </label>
-          <input
-            type="text"
-            placeholder="name"
-            value={this.state.input}
-            onChange={e => this.handleUpdateInput(e.target.value)}
-          />
-        </div>
-        <input type="submit" value="Save" disabled={this.disableSave()} />
-        <input type="button" value="Cancel" onClick={this.redirectToList} />
-      </form>
-    ) : <h2>No content to display</h2>;
-  }
+  return props.hero ? (
+    <form onSubmit={handleSaveClick}>
+      <h2>{props.hero?.name.toUpperCase()} Details</h2>
+      <div>
+        <span>id: </span>
+        {props.hero?.id}
+      </div>
+      <div>
+        <label>name: </label>
+        <input
+          type="text"
+          placeholder="name"
+          value={input}
+          onChange={handleUpdateInput}
+        />
+      </div>
+      <input type="submit" value="Save" disabled={disableSave()} />
+      <input type="button" value="Cancel" onClick={redirectToList} />
+    </form>
+  ) : <h2>No content to display</h2>;
 }
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StateProps => ({

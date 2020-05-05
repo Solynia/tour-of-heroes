@@ -1,8 +1,8 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
-import HeroList from "./HeroList";
 import HeroDetail from "./HeroDetail";
+import HeroList from "./HeroList";
 import Message from "./Message";
 import NavMenu from "./NavMenu";
 
@@ -10,7 +10,7 @@ type Props = {
   title: string;
 }
 
-function App(props: Props) {
+const App = (props: Props) => {
   return (
     <Router>
       <NavMenu></NavMenu>
