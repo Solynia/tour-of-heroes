@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, useParams } from "react-router-dom";
 import "./App.css";
 import HeroDetail from "./HeroDetail";
 import HeroList from "./HeroList";
@@ -16,18 +16,11 @@ const App = (props: Props) => {
       <NavMenu></NavMenu>
       <main>
         <h1>{props.title}</h1>
-        <Switch>
-          <Route path="/heroes/list" >
-            <HeroList />
-          </Route>
-          <Route path="/heroes/detail/:id" render={routeProps => {
-            const id = routeProps.match.params.id;
-            return <HeroDetail key={id} id={id} />
-          }} />
-          <Route path="/heroes/detail" >
-            <HeroDetail />
-          </Route>
-        </Switch>
+        <Routes>
+          <Route path="/heroes/list" element={<HeroList />} />
+          <Route path="/heroes/detail/:id" element={<HeroDetail />} />
+          <Route path="/heroes/detail" element={<HeroDetail />} />
+        </Routes>
       </main>
       <Message></Message>
     </Router>

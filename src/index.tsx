@@ -1,15 +1,11 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import * as React from "react";
+import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import { BrowserRouter } from "react-router-dom";
 import App from "./components/App";
 import store from "./redux/store";
 
-ReactDOM.render(
+createRoot(document.getElementById("root")!).render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App title="Tour of heroes" />
-    </BrowserRouter>
-  </Provider>,
-  document.getElementById("root")
+    <App title="Tour of heroes" />
+  </Provider>
 );

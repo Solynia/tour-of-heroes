@@ -1,16 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { updateHero } from "../redux/actions/heroes";
 import { AppState } from "../redux/reducers";
 import { getHeroById } from "../redux/selectors/heroes";
 
-type Props = { id?: string };
-
-const HeroDetail = (props: Props) => {
-  const history = useHistory();
-  const hero = useSelector((state: AppState) => getHeroById(state, parseInt(props.id ?? "")));
+const HeroDetail = () => {
+  const params = useParams()
+  const navigate = useNavigate();
+  const hero = useSelector((state: AppState) => getHeroById(state, parseInt(params.id ?? "")));
   const dispatch = useDispatch();
   const [input, setInput] = useState(hero?.name ?? "");
   useDocumentTitle(input);
@@ -27,7 +26,7 @@ const HeroDetail = (props: Props) => {
     redirectToList();
   };
 
-  const redirectToList = () => history.push("/heroes/list");
+  const redirectToList = () => navigate("/heroes/list");
 
   const disableSave = () => !input || (hero && input === hero.name);
 

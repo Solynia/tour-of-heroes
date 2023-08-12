@@ -6,7 +6,7 @@ export type HeroState = {
   heroes: Hero[];
 }
 
-export default function (state: HeroState = { heroes: [] }, action: HeroAction) {
+export default function heroes(state: HeroState = { heroes: [] }, action: HeroAction) {
   switch (action.type) {
     case HeroActions.update:
       return heroUpdate(state, action.payload.hero);
