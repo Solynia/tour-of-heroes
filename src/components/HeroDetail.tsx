@@ -1,17 +1,18 @@
-import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import { updateHero } from "../redux/actions/heroes";
-import { AppState } from "../redux/reducers";
-import { getHeroById } from "../redux/selectors/heroes";
+import { getHeroById, updateHero } from "../redux/heros/heroesSlice";
 
 const HeroDetail = () => {
-  const params = useParams()
+  const params = useParams();
   const navigate = useNavigate();
-  const hero = useSelector((state: AppState) => getHeroById(state, parseInt(params.id ?? "")));
-  const dispatch = useDispatch();
+  const hero = useAppSelector((state) =>
+    getHeroById(state, parseInt(params.id ?? ""))
+  );
+  const dispatch = useAppDispatch();
   const [input, setInput] = useState(hero?.name ?? "");
+  useEffect(() => setInput(hero?.name ?? ""), [hero]);
   useDocumentTitle(input);
 
   const handleUpdateInput = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -19,10 +20,7 @@ const HeroDetail = () => {
   };
 
   const handleSaveClick = () => {
-    updateHero?.({
-      ...hero,
-      name: input
-    })(dispatch);
+    dispatch(updateHero({ ...hero, name: input }));
     redirectToList();
   };
 
@@ -31,7 +29,7 @@ const HeroDetail = () => {
   const disableSave = () => !input || (hero && input === hero.name);
 
   return hero ? (
-    <form onSubmit={handleSaveClick}>
+    <form action={handleSaveClick}>
       <h2>{hero?.name.toUpperCase()} Details</h2>
       <div>
         <span>id: </span>
@@ -49,7 +47,9 @@ const HeroDetail = () => {
       <input type="submit" value="Save" disabled={disableSave()} />
       <input type="button" value="Cancel" onClick={redirectToList} />
     </form>
-  ) : <h2>No content to display</h2>;
-}
+  ) : (
+    <h2>No content to display</h2>
+  );
+};
 
 export default HeroDetail;

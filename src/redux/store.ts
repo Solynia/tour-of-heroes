@@ -1,16 +1,15 @@
-import { createStore, applyMiddleware } from "redux";
-import thunk from 'redux-thunk';
-import rootReducer, { AppState } from "./reducers";
+import { configureStore } from "@reduxjs/toolkit";
+import heroesReducer from "./heros/heroesSlice";
+import notificationsReducer from "./notifications/notificationsSlice";
 
-const defaultState: AppState = {
-    hero: { heroes: [] },
-    notification: {}
-}
+const store = configureStore({
+  reducer: {
+    heroes: heroesReducer,
+    notifications: notificationsReducer,
+  },
+});
 
-const store = createStore(
-    rootReducer,
-    defaultState,
-    applyMiddleware(thunk)
-);
+export type AppState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
 
 export default store;

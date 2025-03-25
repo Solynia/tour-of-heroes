@@ -1,19 +1,20 @@
 import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import { fetchHeroes } from "../redux/actions/heroes";
-import { getHeroes } from "../redux/selectors/heroes";
+import { fetchHeroes, getHeroes } from "../redux/heros/heroesSlice";
 import "./HeroList.css";
 
 const HeroList = () => {
-  const heroes = useSelector(getHeroes);
-  const dispatch = useDispatch();
-  useDocumentTitle('Hero List');
+  const heroes = useAppSelector(getHeroes);
+  const dispatch = useAppDispatch();
+  useDocumentTitle("Hero List");
   // fetch heroes only once
-  useEffect(() => fetchHeroes()(dispatch), [dispatch]);
+  useEffect(() => {
+    dispatch(fetchHeroes());
+  }, []);
 
-  const elements = heroes?.map(hero => {
+  const elements = heroes?.map((hero) => {
     return (
       <Link key={hero.id} to={`/heroes/detail/${hero.id}`}>
         <li>
@@ -29,6 +30,6 @@ const HeroList = () => {
       <ul className="heroes">{elements}</ul>
     </div>
   );
-}
+};
 
 export default HeroList;
